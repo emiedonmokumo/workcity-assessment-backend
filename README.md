@@ -59,7 +59,7 @@ npm run dev
 
 ### ✅ 4. **API Endpoints**
 
-API Documenation: http://localhost:5000/api-docs
+API Documenation: http://localhost:8080/api-docs
 
 ```markdown
 ## 🔐 Auth Endpoints
