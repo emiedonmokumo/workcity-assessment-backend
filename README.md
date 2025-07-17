@@ -42,7 +42,8 @@ npm install
 Create a `.env` file in the root of the project and add the following environment variables:
 
 ```env
-PORT=5000
+BASE_URI=http://localhost:8080
+PORT=8080
 MONGO_URI=mongodb://localhost:27017/workcity
 JWT_SECRET=your_jwt_secret_key
 ```
@@ -58,7 +59,7 @@ npm run dev
 
 ### ✅ 4. **API Endpoints**
 
-Add sections for Auth, Clients, and Projects, like:
+API Documenation: http://localhost:5000/api-docs
 
 ```markdown
 ## 🔐 Auth Endpoints
