@@ -32,6 +32,16 @@ export const getClients = async (_req: Request, res: Response) => {
   }
 };
 
+export const getClient = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const client = await Client.findById(id);
+    res.status(200).json(client);
+  } catch (err) {
+    res.status(500).json({ msg: 'Error fetching clients', error: err });
+  }
+};
+
 export const updateClient = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;

@@ -5,7 +5,7 @@ export interface IProject extends Document {
     description?: string;
     client: mongoose.Types.ObjectId;
     budget?: number;
-    status?: 'Pending' | 'Ongoing' | 'Completed';
+    status?: 'pending' | 'ongoing' | 'completed';
 }
 
 const projectSchema = new Schema<IProject>({
@@ -13,7 +13,7 @@ const projectSchema = new Schema<IProject>({
     description: String,
     client: { type: Schema.Types.ObjectId, ref: 'Client', required: true },
     budget: Number,
-    status: { type: String, enum: ['Pending', 'Ongoing', 'Completed'], default: 'Pending' },
+    status: { type: String, enum: ['pending', 'ongoing', 'completed'], default: 'pending' },
 });
 
 export default mongoose.model<IProject>('Project', projectSchema);

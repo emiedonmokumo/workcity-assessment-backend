@@ -15,7 +15,7 @@ export const createProject = async (req: Request, res: Response) => {
       return res.status(400).json({ msg: 'Invalid client ID' });
     }
 
-    if (status && !['Pending', 'Ongoing', 'Completed'].includes(status)) {
+    if (status && !['pending', 'ongoing', 'completed'].includes(status)) {
       return res.status(400).json({ msg: 'Invalid status value' });
     }
 
@@ -43,6 +43,16 @@ export const getProjects = async (_req: Request, res: Response) => {
   }
 };
 
+export const getProject = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const projects = await Project.findById(id).populate('client');
+    res.status(200).json(projects);
+  } catch (err) {
+    res.status(500).json({ msg: 'Error fetching projects', error: err });
+  }
+};
+
 
 export const getProjectsByClient = async (req: Request, res: Response) => {
   try {
@@ -52,7 +62,7 @@ export const getProjectsByClient = async (req: Request, res: Response) => {
       return res.status(400).json({ msg: 'Invalid client ID' });
     }
 
-    const projects = await Project.find({ client: clientId });
+    const projects = await Project.find({ client: clientId }).populate('client');
     res.status(200).json(projects);
   } catch (err) {
     res.status(500).json({ msg: 'Error fetching client projects', error: err });
@@ -65,7 +75,7 @@ export const updateProject = async (req: Request, res: Response) => {
     const { id } = req.params;
     const updateFields = req.body;
 
-    if (updateFields.status && !['Pending', 'Ongoing', 'Completed'].includes(updateFields.status)) {
+    if (updateFields.status && !['pending', 'ongoing', 'completed'].includes(updateFields.status)) {
       return res.status(400).json({ msg: 'Invalid status value' });
     }
 

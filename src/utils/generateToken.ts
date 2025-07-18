@@ -10,4 +10,10 @@ const generateToken = (user: IUser): string => {
     );
 };
 
+export const decodeToken = (token: string) => {
+    const decoded = jwt.decode(token) as { exp: number };
+    return decoded
+}
+
+
 export default generateToken

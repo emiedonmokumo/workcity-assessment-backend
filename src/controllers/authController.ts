@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import User from '../models/User';
-import generateToken from '../utils/generateToken';
-
+import generateToken, { decodeToken } from '../utils/generateToken';
 
 export const signup = async (req: Request, res: Response) => {
   try {
@@ -13,7 +12,18 @@ export const signup = async (req: Request, res: Response) => {
     const user = await User.create({ name, email, password, role });
 
     const token = generateToken(user);
-    res.status(201).json({ token, user: { id: user._id, name, email, role } });
+    const { exp } = decodeToken(token);
+    // console.log(new Date(exp * 1000).toISOString());
+    
+    res.status(201).json({ 
+      token,
+      expiresAt: new Date(exp * 1000).toISOString(),
+      user: { 
+        id: user._id, 
+        name, 
+        email, 
+        role 
+      } });
   } catch (err) {
     res.status(500).json({ msg: 'Server error', error: err });
   }
@@ -30,7 +40,19 @@ export const login = async (req: Request, res: Response) => {
     if (!isMatch) return res.status(401).json({ msg: 'Invalid credentials' });
 
     const token = generateToken(user);
-    res.json({ token, user: { id: user._id, name: user.name, email, role: user.role } });
+    const { exp } = decodeToken(token);
+    // console.log(new Date(exp * 1000).toISOString());
+
+    res.json({ 
+      token,
+      expiresAt: new Date(exp * 1000).toISOString(),
+      user: { 
+        id: user._id, 
+        name: user.name, 
+        email, 
+        role: user.role 
+      },
+    });
   } catch (err) {
     console.log(err)
     res.status(500).json({ msg: 'Server error', error: err });

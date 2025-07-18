@@ -7,12 +7,14 @@ import {
   getProjectsByClient,
   updateProject,
   deleteProject,
+  getProject,
 } from '../controllers/projectController';
 
 const router = express.Router();
 
 router.use(auth);
 router.get('/', getProjects);
+router.get('/:id', getProject);
 router.get('/client/:clientId', getProjectsByClient);
 router.post('/', roleCheck(['admin']), createProject);
 router.put('/:id', roleCheck(['admin']), updateProject);
@@ -94,8 +96,8 @@ export default router;
  *                 example: 50000
  *               status:
  *                 type: string
- *                 enum: [Pending, Ongoing, Completed]
- *                 example: Pending
+ *                 enum: [pending, ongoing, completed]
+ *                 example: pending
  *     responses:
  *       201:
  *         description: Project created
@@ -138,8 +140,8 @@ export default router;
  *                 example: 100000
  *               status:
  *                 type: string
- *                 enum: [Pending, Ongoing, Completed]
- *                 example: Completed
+ *                 enum: [pending, ongoing, completed]
+ *                 example: completed
  *     responses:
  *       200:
  *         description: Project updated

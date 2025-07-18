@@ -6,12 +6,14 @@ import {
     getClients,
     updateClient,
     deleteClient,
+    getClient,
 } from '../controllers/clientController';
 
 const router = express.Router();
 
 router.use(auth);
 router.get('/', getClients);
+router.get('/:id', getClient);
 router.post('/', roleCheck(['admin']), createClient);
 router.put('/:id', roleCheck(['admin']), updateClient);
 router.delete('/:id', roleCheck(['admin']), deleteClient);
